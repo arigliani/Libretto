@@ -2,6 +2,8 @@ package it.polito.tdp.libretto.model;
 
 import java.util.*;
 
+import it.polito.tdp.libretto.db.EsameDAO;
+
 public class Model {
      private List<Esame> esami;
      
@@ -18,25 +20,17 @@ public class Model {
       * @return true se l' hainserito, false se gia esistente e quindi non lo aggiunge
       */
     public boolean addEsame(Esame e){
-    	if(!esami.contains(e)){
-    		esami.add(e);
-    		return true;
-    	}
-    	else{
-    		return false;
-    	}
+    	EsameDAO dao= new EsameDAO();
+    	return dao.create(e);
     }
     
     public Esame trovaEsame( String codice){
     	
-    	//codì mi cerca l' esame che vglio, l ho potuto fare perche il mio equals si basa solo sul codice
-    	int pos=this.esami.indexOf(new Esame(codice, null, null));
-    	if(pos==-1){
-    		return null;
-    	}
-    	else{
-    		return esami.get(pos);
-    	}
+        EsameDAO dao= new EsameDAO();
+        
+        Esame e=dao.find(codice);
+        
+        return e;
     	
     	
     }
